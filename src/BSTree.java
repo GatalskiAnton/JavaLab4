@@ -1,35 +1,41 @@
-public class BSTree {
-    public class Node{
-        public Node(int data)
+public class BSTree<T extends  Comparable<T>> implements Comparable<BSTree<T>> {
+
+    @Override
+    public int compareTo(BSTree<T> o) {
+        return 0;
+    }
+
+    class Node{
+        public Node(T data)
         {
             this.data = data;
         }
-        public int getData()
+        public T getData()
         {
             return data;
         }
-        public void setData(int data)
-        {
+        public void setData(T data)
+            {
             this.data = data;
         }
         private Node lNode;
         private Node rNode;
-        private int data;
+        private T data;
     }
 
-    public BSTree(int data)
+    public BSTree(T data)
     {
         root = new Node(data);
     }
     public BSTree() {};
 
-    private Node doInsert(int data, Node node)
+    private Node doInsert(T data, Node node)
     {
         if (node == null)
             node = new Node(data);
         else
         {
-            if (data > node.getData())
+            if (data.compareTo(node.getData()) > 0)
                 node.rNode =  doInsert(data, node.rNode);
             else
                 node.lNode =  doInsert(data, node.lNode);
@@ -37,25 +43,24 @@ public class BSTree {
         return node;
     }
 
-    public void insert(int data)
+    public void insert(T data)
     {
         root = doInsert(data,root);
     }
 
-    public Node find(int data)
+    public Node find(T data)
     {
         return doFind(data,root);
     }
 
-    private Node doFind(int data, Node node)
+    private Node doFind(T data, Node node)
     {
-        if (node.rNode == null && node.lNode == null)
-            return new Node(-1);
+
         if (node.getData() == data || node == null) {
             return node;
         }
         else {
-            if (data > node.getData())
+            if (data.compareTo(node.getData()) > 0)
                return doFind(data, node.rNode);
             else
                return doFind(data, node.lNode);
