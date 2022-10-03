@@ -1,111 +1,121 @@
-public class BSTree<T extends  Comparable<T>> implements Comparable<BSTree<T>> {
+public class BSTree<T extends Comparable<T>> {
 
-    @Override
-    public int compareTo(BSTree<T> o) {
-        return 0;
+    public BSTree(T data) {
+        root = new Node<T>(data);
     }
 
-    class Node{
-        public Node(T data)
-        {
-            this.data = data;
-        }
-        public T getData()
-        {
-            return data;
-        }
-        public void setData(T data)
-            {
-            this.data = data;
-        }
-        private Node lNode;
-        private Node rNode;
-        private T data;
-    }
+    public BSTree() {
+    };
 
-    public BSTree(T data)
-    {
-        root = new Node(data);
-    }
-    public BSTree() {};
-
-    private Node doInsert(T data, Node node)
-    {
+    private Node doInsert(T data, Node<T> node) {
         if (node == null)
-            node = new Node(data);
-        else
-        {
+            node = new Node<T>(data);
+        else {
             if (data.compareTo(node.getData()) > 0)
-                node.rNode =  doInsert(data, node.rNode);
+                node.setRNode(doInsert(data, node.getRNode()));
             else
-                node.lNode =  doInsert(data, node.lNode);
+                node.setLNode(doInsert(data, node.getLNode()));
         }
         return node;
     }
 
-    public void insert(T data)
-    {
-        root = doInsert(data,root);
+    public void insert(T data) {
+        root = doInsert(data, root);
     }
 
-    public Node find(T data)
-    {
-        return doFind(data,root);
+    public Node find(T data) {
+        return doFind(data, root);
     }
 
-    private Node doFind(T data, Node node)
-    {
+    private Node doFind(T data, Node<T> node) {
 
         if (node.getData() == data || node == null) {
             return node;
-        }
-        else {
+        } else {
             if (data.compareTo(node.getData()) > 0)
-               return doFind(data, node.rNode);
+                return doFind(data, node.getRNode());
             else
-               return doFind(data, node.lNode);
+                return doFind(data, node.getLNode());
         }
     }
 
-    public void inorderTraversal()
-    {
+    public void inorderTraversal() {
         inorderTraversal(root);
     }
 
-    private void inorderTraversal(Node root)
-    {
-        if (root.lNode != null)
-            inorderTraversal(root.lNode);
+    private void inorderTraversal(Node<T> root) {
+        if (root.getLNode() != null)
+            inorderTraversal(root.getLNode());
 
         System.out.println(root.getData());
 
-        if (root.rNode != null)
-            inorderTraversal(root.rNode);
+        if (root.getRNode() != null)
+            inorderTraversal(root.getRNode());
     }
-    public void preorderTravers()
-    {
+
+    public void preorderTravers() {
         preorderTravers(root);
     }
-    private void preorderTravers(Node root)
-    {
+
+    private void preorderTravers(Node root) {
         System.out.println(root.getData());
-        if (root.lNode != null)
-            preorderTravers(root.lNode);
-        if (root.rNode != null)
-            preorderTravers(root.rNode);
+        if (root.getLNode() != null)
+            preorderTravers(root.getLNode());
+        if (root.getRNode() != null)
+            preorderTravers(root.getRNode());
     }
 
-    public void postorderTravers()
-    {
+    public void postorderTravers() {
         postorderTravers(root);
     }
-    private void postorderTravers(Node root)
-    {
-        if (root.lNode != null)
-            postorderTravers(root.lNode);
-        if (root.rNode != null)
-            postorderTravers(root.rNode);
+
+    private void postorderTravers(Node<T> root) {
+        if (root.getLNode() != null)
+            postorderTravers(root.getLNode());
+        if (root.getRNode() != null)
+            postorderTravers(root.getRNode());
         System.out.println(root.getData());
     }
-    private Node root = null;
+
+    private Node<T> root = null;
+
+}
+
+class Node<T extends Comparable<T>> implements Comparable<Node<T>> {
+    public Node(T data) {
+        this.data = data;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    public Node<T> getLNode() {
+        return lNode;
+    }
+
+    public Node<T> getRNode() {
+        return rNode;
+    }
+
+    public void setLNode(Node<T> node) {
+        lNode = node;
+    }
+
+    public void setRNode(Node<T> node) {
+        rNode = node;
+    }
+
+    private Node lNode;
+    private Node rNode;
+    private T data;
+
+    @Override
+    public int compareTo(Node<T> o) {
+        return this.data.compareTo(o.getData());
+    }
 }
