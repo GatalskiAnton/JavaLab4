@@ -1,5 +1,43 @@
 public class BSTree<T extends Comparable<T>> {
 
+    class Node<T extends Comparable<T>> implements Comparable<Node<T>> {
+        public Node(T data) {
+            this.data = data;
+        }
+
+        public T getData() {
+            return data;
+        }
+
+        public void setData(T data) {
+            this.data = data;
+        }
+
+        public Node<T> getLNode() {
+            return lNode;
+        }
+
+        public Node<T> getRNode() {
+            return rNode;
+        }
+
+        public void setLNode(Node<T> node) {
+            lNode = node;
+        }
+
+        public void setRNode(Node<T> node) {
+            rNode = node;
+        }
+
+        private Node lNode;
+        private Node rNode;
+        private T data;
+
+        @Override
+        public int compareTo(Node<T> o) {
+            return this.data.compareTo(o.getData());
+        }
+    }
     public BSTree(T data) {
         root = new Node<T>(data);
     }
@@ -76,46 +114,5 @@ public class BSTree<T extends Comparable<T>> {
             postorderTravers(root.getRNode());
         System.out.println(root.getData());
     }
-
     private Node<T> root = null;
-
-}
-
-class Node<T extends Comparable<T>> implements Comparable<Node<T>> {
-    public Node(T data) {
-        this.data = data;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }
-
-    public Node<T> getLNode() {
-        return lNode;
-    }
-
-    public Node<T> getRNode() {
-        return rNode;
-    }
-
-    public void setLNode(Node<T> node) {
-        lNode = node;
-    }
-
-    public void setRNode(Node<T> node) {
-        rNode = node;
-    }
-
-    private Node lNode;
-    private Node rNode;
-    private T data;
-
-    @Override
-    public int compareTo(Node<T> o) {
-        return this.data.compareTo(o.getData());
-    }
 }
